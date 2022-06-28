@@ -1,0 +1,43 @@
+	@Autowired
+	private Productdao productDao;
+
+
+	@RequestMapping(value = "/",method = RequestMethod.GET)
+	public String home(Model m) {
+
+		List<Product> list =productDao.getallproduct();
+		m.addAttribute("productlist", list);
+		return "index";
+	}
+
+	@RequestMapping(value = "/addproducts",method = RequestMethod.GET)
+	public String AddProduct(Model m) {
+		m.addAttribute("title", "AddProduct");
+		return "add_product_form";
+
+	}
+
+	@RequestMapping(value = "/handl-products",method = RequestMethod.GET)
+	public RedirectView handelproduct(@ModelAttribute Product product,HttpServletRequest request) {
+		productDao.createProduct(product);
+		RedirectView r=new RedirectView();
+		r.setUrl(request.getContextPath()+"/");
+		return r;
+
+	}
+
+	@RequestMapping("/delete/{productId}")
+	public RedirectView hendledelete(@PathVariable("productId")int productId,HttpServletRequest request) {
+
+		this.productDao.delete(productId);
+		RedirectView r=new RedirectView();
+		r.setUrl(request.getContextPath()+"/");
+		return r;
+	}
+	
+	@RequestMapping("/update/{productId}")
+	public String handelupdate(@PathVariable int productId,Model m) {
+		Product product=this.productDao.getproduct(productId);
+		m.addAttribute("product", product);
+		return "update_form";
+	}
