@@ -25,7 +25,7 @@ public class MainM {
 	u1.setUrName("manoj");
 	
 	User u2=new User();
-	u2.setUrName("ankitha");
+	u2.setUrName("madan");
 	
 	
 	
